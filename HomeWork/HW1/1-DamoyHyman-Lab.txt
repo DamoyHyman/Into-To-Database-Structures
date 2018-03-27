@@ -1,0 +1,248 @@
+SQL> set linesize 300
+SQL> @HW1.sql
+SQL> 
+SQL> -- Drop the tables if they are already there.
+SQL> drop table  STAR CASCADE CONSTRAINT;
+drop table  STAR CASCADE CONSTRAINT
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> drop table  MOVIE CASCADE CONSTRAINT;
+drop table  MOVIE CASCADE CONSTRAINT
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> drop table  ROLE CASCADE CONSTRAINT;
+drop table  ROLE CASCADE CONSTRAINT
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> 
+SQL> -- Remove any ghost tables
+SQL> PURGE RECYCLEBIN;
+
+Recyclebin purged.
+
+SQL> 
+SQL> -- PART A
+SQL> -- Create the STAR table
+SQL> CREATE TABLE  STAR (    id 		     INTEGER,
+  2  					     name	     VARCHAR(30),
+  3  					     birth_year      INTEGER,
+  4  					     gender	     VARCHAR(8),
+  5  				     salary	     INTEGER,
+  6  						     PRIMARY KEY (id)
+  7  				     );
+
+Table created.
+
+SQL> 
+SQL> -- Create the MOVIE table
+SQL> CREATE TABLE  MOVIE(    id 	      INTEGER,
+  2  						     title	      VARCHAR(30),
+  3  						     rating	  VARCHAR(10),
+  4  						     genre	  VARCHAR(20),
+  5  			     budget	  INTEGER,
+  6  						     PRIMARY KEY(id)
+  7  				     );
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> -- Create the ROLE table
+SQL> CREATE TABLE ROLE (	 m_id		    INTEGER,
+  2  			     s_id	    INTEGER,
+  3  					     character_name VARCHAR(30),
+  4  					     PRIMARY KEY(m_id, s_id),
+  5  						     FOREIGN KEY(m_id) REFERENCES MOVIE(id) ON DELETE CASCADE
+  6  					     -- FOREIGN KEY(s_id) REFERENCES STAR(id)  ON DELETE CASCADE
+  7  			);
+
+Table created.
+
+SQL> 
+SQL> -- Ensure all data is removed from the tables
+SQL> delete from STAR;
+
+0 rows deleted.
+
+SQL> delete from MOVIE;
+
+0 rows deleted.
+
+SQL> delete from ROLE;
+
+0 rows deleted.
+
+SQL> 
+SQL> -- PART B
+SQL> -- INSERT THE DATA WITH NAMED FIELDS into the STAR TABLE
+SQL> insert into STAR values( 1, 'Tom Hanks'	, 1956, 'Male'	, 8000000 );
+
+1 row created.
+
+SQL> insert into STAR values( 2, 'Meg Ryan'	, 1961, 'Female', 10500000);
+
+1 row created.
+
+SQL> insert into STAR values( 3, 'Nicolas Cage' , 1964, 'Male'	, 15000000);
+
+1 row created.
+
+SQL> insert into STAR values( 4, 'Billy Crystal', 1948, 'Male'	, 7000000 );
+
+1 row created.
+
+SQL> 
+SQL> -- INSERT THE DATA WITH NAMED FIELDS into the MOVIE TABLE
+SQL> insert into MOVIE values( 1, 'Castaway'		,'PG-13' , 'Drama'  , 90000000);
+
+1 row created.
+
+SQL> insert into MOVIE values( 2, 'You Got Mail'	,'PG'	 , 'Romance', 65000000);
+
+1 row created.
+
+SQL> insert into MOVIE values( 3, 'City of Angels'	,'PG-13' , 'Horror' , 66000000);
+
+1 row created.
+
+SQL> insert into MOVIE values( 4, 'When Harry Met Sally', 'PG-13', 'Romance', 25000000);
+
+1 row created.
+
+SQL> 
+SQL> -- INSERT THE DATA WITH NAMED FIELDS into the ROLE TABLE
+SQL> insert into ROLE values( 1,  1, 'Chuck Noland'  );
+
+1 row created.
+
+SQL> insert into ROLE values( 2,  1, 'Joe Fox'	     );
+
+1 row created.
+
+SQL> insert into ROLE values( 2,  2, 'Kathleen Kelly');
+
+1 row created.
+
+SQL> insert into ROLE values( 3,  2, 'Maggie Rice'   );
+
+1 row created.
+
+SQL> insert into ROLE values( 3,  5, 'Cassiel'	     );
+
+1 row created.
+
+SQL> insert into ROLE values( 3,  3, 'Seth'	     );
+
+1 row created.
+
+SQL> insert into ROLE values( 4,  2, 'Sally'	     );
+
+1 row created.
+
+SQL> insert into ROLE values( 4,  4, 'Harry'	     );
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> -- DISPALY TABLES WITH DATA
+SQL> SELECT * FROM STAR;
+
+        ID NAME                           BIRTH_YEAR GENDER       SALARY                                                                                                                                                                                                                                    
+---------- ------------------------------ ---------- -------- ----------                                                                                                                                                                                                                                    
+         1 Tom Hanks                            1956 Male        8000000                                                                                                                                                                                                                                    
+         2 Meg Ryan                             1961 Female     10500000                                                                                                                                                                                                                                    
+         3 Nicolas Cage                         1964 Male       15000000                                                                                                                                                                                                                                    
+         4 Billy Crystal                        1948 Male        7000000                                                                                                                                                                                                                                    
+
+SQL> SELECT * FROM MOVIE;
+
+        ID TITLE                          RATING     GENRE                    BUDGET                                                                                                                                                                                                                        
+---------- ------------------------------ ---------- -------------------- ----------                                                                                                                                                                                                                        
+         1 Castaway                       PG-13      Drama                  90000000                                                                                                                                                                                                                        
+         2 You Got Mail                   PG         Romance                65000000                                                                                                                                                                                                                        
+         3 City of Angels                 PG-13      Horror                 66000000                                                                                                                                                                                                                        
+         4 When Harry Met Sally           PG-13      Romance                25000000                                                                                                                                                                                                                        
+
+SQL> SELECT * FROM ROLE;
+
+      M_ID       S_ID CHARACTER_NAME                                                                                                                                                                                                                                                                        
+---------- ---------- ------------------------------                                                                                                                                                                                                                                                        
+         1          1 Chuck Noland                                                                                                                                                                                                                                                                          
+         2          1 Joe Fox                                                                                                                                                                                                                                                                               
+         2          2 Kathleen Kelly                                                                                                                                                                                                                                                                        
+         3          2 Maggie Rice                                                                                                                                                                                                                                                                           
+         3          5 Cassiel                                                                                                                                                                                                                                                                               
+         3          3 Seth                                                                                                                                                                                                                                                                                  
+         4          2 Sally                                                                                                                                                                                                                                                                                 
+         4          4 Harry                                                                                                                                                                                                                                                                                 
+
+8 rows selected.
+
+SQL> 
+SQL> -- PART C
+SQL> -- UPDATE/MODIFY TABLES
+SQL> UPDATE STAR S SET S.salary = (S.salary + S.salary * 0.3353) WHERE S.id = 1;
+
+1 row updated.
+
+SQL> UPDATE MOVIE M SET M.genre = 'Romance' WHERE M.id = 3;
+
+1 row updated.
+
+SQL> DELETE FROM MOVIE M WHERE M.title = 'When Harry Met Sally';
+
+1 row deleted.
+
+SQL> 
+SQL> -- DISPALY TABLES AFTER UPDATE
+SQL> SELECT * FROM STAR;
+
+        ID NAME                           BIRTH_YEAR GENDER       SALARY                                                                                                                                                                                                                                    
+---------- ------------------------------ ---------- -------- ----------                                                                                                                                                                                                                                    
+         1 Tom Hanks                            1956 Male       10682400                                                                                                                                                                                                                                    
+         2 Meg Ryan                             1961 Female     10500000                                                                                                                                                                                                                                    
+         3 Nicolas Cage                         1964 Male       15000000                                                                                                                                                                                                                                    
+         4 Billy Crystal                        1948 Male        7000000                                                                                                                                                                                                                                    
+
+SQL> SELECT * FROM MOVIE;
+
+        ID TITLE                          RATING     GENRE                    BUDGET                                                                                                                                                                                                                        
+---------- ------------------------------ ---------- -------------------- ----------                                                                                                                                                                                                                        
+         1 Castaway                       PG-13      Drama                  90000000                                                                                                                                                                                                                        
+         2 You Got Mail                   PG         Romance                65000000                                                                                                                                                                                                                        
+         3 City of Angels                 PG-13      Romance                66000000                                                                                                                                                                                                                        
+
+SQL> SELECT * FROM ROLE;
+
+      M_ID       S_ID CHARACTER_NAME                                                                                                                                                                                                                                                                        
+---------- ---------- ------------------------------                                                                                                                                                                                                                                                        
+         1          1 Chuck Noland                                                                                                                                                                                                                                                                          
+         2          1 Joe Fox                                                                                                                                                                                                                                                                               
+         2          2 Kathleen Kelly                                                                                                                                                                                                                                                                        
+         3          2 Maggie Rice                                                                                                                                                                                                                                                                           
+         3          5 Cassiel                                                                                                                                                                                                                                                                               
+         3          3 Seth                                                                                                                                                                                                                                                                                  
+
+6 rows selected.
+
+SQL> 
+SQL> -- COMMIT and save data
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> spool off
