@@ -10,31 +10,31 @@ PURGE RECYCLEBIN;
 
 -- PART A
 -- Create the STAR table
-CREATE TABLE  STAR ( 	id 		        INTEGER, 
-		    			name 	        VARCHAR(30), 
-		    			birth_year      INTEGER, 
-		    			gender	        VARCHAR(8), 
-                		salary        	INTEGER,
-						PRIMARY KEY (id)
-	          		);
+CREATE TABLE  STAR ( id INTEGER, 
+		     name VARCHAR(30), 
+		     birth_year INTEGER, 
+		     gender VARCHAR(8), 
+                     salary INTEGER,
+		     PRIMARY KEY (id)
+	           );
 
 -- Create the MOVIE table
-CREATE TABLE  MOVIE(  	id        	 INTEGER, 
-						title 		 VARCHAR(30), 
-						rating 	     VARCHAR(10), 
-						genre 	     VARCHAR(20), 
-                        budget       INTEGER,
-						PRIMARY KEY(id)
-		     		);
+CREATE TABLE  MOVIE( id  INTEGER, 
+		     title VARCHAR(30), 
+		     rating VARCHAR(10), 
+		     genre VARCHAR(20), 
+                     budget INTEGER,
+		     PRIMARY KEY(id)
+		   );
 
 
 -- Create the ROLE table
-CREATE TABLE ROLE (	    m_id  	       INTEGER, 
-                        s_id 	       INTEGER, 
-				        character_name VARCHAR(30),  
-				        PRIMARY KEY(m_id, s_id),
-				  		FOREIGN KEY(m_id) REFERENCES MOVIE(id) ON DELETE CASCADE
-  				        -- FOREIGN KEY(s_id) REFERENCES STAR(id)  ON DELETE CASCADE    
+CREATE TABLE ROLE ( m_id INTEGER, 
+                    s_id INTEGER, 
+		    character_name VARCHAR(30),  
+		    PRIMARY KEY(m_id, s_id),
+		    FOREIGN KEY(m_id) REFERENCES MOVIE(id) ON DELETE CASCADE
+  	            -- FOREIGN KEY(s_id) REFERENCES STAR(id)  ON DELETE CASCADE    
                    );
 
 -- Ensure all data is removed from the tables
